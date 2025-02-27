@@ -67,7 +67,7 @@ jobs:
           # updates to the prod branch are deployed to prod.
           echo DEPLOYMENT_ENV=prod >> "$GITHUB_ENV"
 
-      - name: Debug TAG value
+      - name: print TAG
         run: echo "TAG is $TAG"
         env:
           TAG: ${{ env.TAG }}
