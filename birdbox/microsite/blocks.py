@@ -5,6 +5,8 @@
 
 """Custom Wagtail blocks that map to Protocol components, intended for use in a StreamField"""
 
+import feedparser
+
 from django import forms
 from django.conf import settings
 from django.db.models import TextChoices
@@ -1053,3 +1055,16 @@ class HorizontalImageBlock(AccessibleImageBlockBase):
         return forms.Media(
             css={"all": [static("css/birdbox-horizontal-image.css")]},
         )
+
+class RSSFeedBlock(wagtail_blocks.StructBlock):
+    feed_url = wagtail_blocks.URLBlock(required=True)
+    max_items = wagtail_blocks.IntegerBlock(default=5)
+
+    def get_feed_entries(self, url, max_items):
+        feed = feedparser.parse(url)
+        return feed.entries[:max_items] if feed.entries else []
+
+    class Meta:
+        template = "microsite/blocks/rss_feed.html"
+        icon = "link"
+        label = "RSS Feed"

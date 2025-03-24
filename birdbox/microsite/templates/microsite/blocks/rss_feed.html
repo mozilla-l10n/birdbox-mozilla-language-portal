@@ -1,0 +1,22 @@
+{% load wagtailcore_tags %}
+
+<div class="rss-feed">
+    <h3>Latest Updates</h3>
+            {% comment %}
+            {% with block.get_feed_entries(value.feed_url, value.max_items) as entries %}
+                {% if entries %}
+                    <ul>
+                        {% for entry in entries %}
+                            <li>
+                                <a href="{{ entry.link }}" target="_blank">{{ entry.title }}</a>
+                                <p>{{ entry.published }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No recent updates available.</p>
+                {% endif %}
+            {% endwith %}
+            {% endcomment %}
+    {{ block.value }}
+</div>

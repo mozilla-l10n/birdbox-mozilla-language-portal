@@ -63,6 +63,7 @@ from .blocks import (
     SectionHeadingBlock,
     SplitBlock,
     VideoEmbedBlock,
+    RSSFeedBlock,
 )
 
 ALL = "__all__"
@@ -335,6 +336,17 @@ class HomePage(BaseProtocolPage):
                     help_text="Can be positioned above a hero block to add a wordmark before the hero",
                 ),
             ),
+            (
+                "rss_feed",
+                RSSFeedBlock(
+                    label="RSS feed",
+                    label_format="RSS feed: {feed}",
+                    icon="media",
+                    required=False,
+                    blank=True, 
+                    use_json_field=True,
+                )
+            )
         ],
         block_counts={
             "contact_form": {"max_num": 1},
@@ -1133,7 +1145,6 @@ class BlogIndexPage(BaseProtocolPage):
             # We only want live posts
             base_qs = base_qs.live()
         return base_qs.filter(is_featured=True).first()
-
 
 @register_setting(icon="list-ul", order=2)
 class Footer(BaseGenericSetting):
