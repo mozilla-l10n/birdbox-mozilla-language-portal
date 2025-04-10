@@ -346,7 +346,15 @@ class HomePage(BaseProtocolPage):
                     blank=True, 
                     use_json_field=True,
                 )
-            )
+            ),
+            (
+                "custom_form",
+                WagtailFormBlock(
+                    label_format="Custom form",
+                    required=False,
+                    icon="radio-empty",
+                ),
+            ),
         ],
         block_counts={
             "contact_form": {"max_num": 1},
