@@ -66,6 +66,8 @@ from .blocks import (
     RSSFeedBlock,
 )
 
+import requests
+
 ALL = "__all__"
 
 
@@ -763,6 +765,39 @@ class ProductPage(BaseProtocolPage):
             "(Unless you use a Hero on the page, in which case we'll use "
             "the title from that for the H1)"
         )
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        search = request.GET.get("search")
+        locale = request.GET.get("locale", "en-US")
+
+        if search:
+            graphql_query = f"""
+            {{
+              tmSearch(search: "{search}", locale: "{locale}") {{
+                source
+                target
+                project {{
+                  name
+                }}
+              }}
+            }}
+            """
+            try:
+                response = requests.post(
+                    "https://pontoon.mozilla.org/graphql",
+                    json={"query": graphql_query},
+                    headers={"Content-Type": "application/json"},
+                    timeout=10,
+                )
+                search_results = response.json().get("data", {}).get("tmSearch", [])
+                context["search_results"] = search_results
+            except Exception as e:
+                context["error"] = str(e)
+                context["search_results"] = []
+
+        return context
 
 
 class LongformArticlePage(BaseProtocolPage):
