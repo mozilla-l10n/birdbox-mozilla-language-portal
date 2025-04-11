@@ -22,4 +22,17 @@
     {% include_block block %}
 {% endfor %}
 
+{% if blog_feed_entries %}
+    <h2>Latest from our Blog</h2>
+      {% for entry in blog_feed_entries %}
+      <section class="mzp-c-emphasis-box">
+          <h3><a href="{{ entry.link }}" target="_blank" rel="noopener noreferrer">{{ entry.title }}</a></h3>
+          <div>
+            {{ entry.summary|safe }}
+          </div>  
+      </section>
+      {% endfor %}
+{% endif %}
+
+
 {% endblock content %}
