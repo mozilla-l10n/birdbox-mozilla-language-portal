@@ -773,25 +773,16 @@ class ProductPage(BaseProtocolPage):
         locale = request.GET.get("locale", "en-US")
 
         if search:
-            graphql_query = f"""
-            {{
-              tmSearch(search: "{search}", locale: "{locale}") {{
-                source
-                target
-                project {{
-                  name
-                }}
-              }}
-            }}
-            """
+            url = "https://pontoon.mozilla.org/api/v2/search/tm/"
+
+            params = {
+                "text": search,
+                "locale": locale
+            }
+
             try:
-                response = requests.post(
-                    "https://pontoon.mozilla.org/graphql",
-                    json={"query": graphql_query},
-                    headers={"Content-Type": "application/json"},
-                    timeout=10,
-                )
-                search_results = response.json().get("data", {}).get("tmSearch", [])
+                response = requests.get(url, params=params)
+                search_results = response.json().get("results", [])
                 context["search_results"] = search_results
             except Exception as e:
                 context["error"] = str(e)
