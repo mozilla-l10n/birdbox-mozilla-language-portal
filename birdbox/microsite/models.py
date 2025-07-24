@@ -63,8 +63,10 @@ from .blocks import (
     SectionHeadingBlock,
     SplitBlock,
     VideoEmbedBlock,
-    RSSFeedBlock,
 )
+
+import requests
+import feedparser
 
 ALL = "__all__"
 
@@ -337,16 +339,13 @@ class HomePage(BaseProtocolPage):
                 ),
             ),
             (
-                "rss_feed",
-                RSSFeedBlock(
-                    label="RSS feed",
-                    label_format="RSS feed: {feed}",
-                    icon="media",
+                "custom_form",
+                WagtailFormBlock(
+                    label_format="Custom form",
                     required=False,
-                    blank=True, 
-                    use_json_field=True,
-                )
-            )
+                    icon="radio-empty",
+                ),
+            ),
         ],
         block_counts={
             "contact_form": {"max_num": 1},
@@ -369,6 +368,17 @@ class HomePage(BaseProtocolPage):
             "(However, this will not be displayed in the page if a block is "
             "added that has its own H1-level heading field, such as a Hero)"
         )
+
+    def get_feed_entries(self):
+        url = 'https://blog.mozilla.org/l10n/rss'
+        feed = feedparser.parse(url)
+        return feed.entries[:3] if feed.entries else []
+
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['blog_feed_entries'] = self.get_feed_entries()
+        return context
 
 
 class InnovationsContentPage(BaseProtocolPage):
@@ -755,6 +765,30 @@ class ProductPage(BaseProtocolPage):
             "(Unless you use a Hero on the page, in which case we'll use "
             "the title from that for the H1)"
         )
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        search = request.GET.get("search")
+        locale = request.GET.get("locale", "en-US")
+
+        if search:
+            url = "https://pontoon.mozilla.org/api/v2/search/tm/"
+
+            params = {
+                "text": search,
+                "locale": locale
+            }
+
+            try:
+                response = requests.get(url, params=params)
+                search_results = response.json().get("results", [])
+                context["search_results"] = search_results
+            except Exception as e:
+                context["error"] = str(e)
+                context["search_results"] = []
+
+        return context
 
 
 class LongformArticlePage(BaseProtocolPage):

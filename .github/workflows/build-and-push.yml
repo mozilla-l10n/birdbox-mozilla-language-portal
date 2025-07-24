@@ -3,17 +3,16 @@ name: Build and push a Docker image
 on:
   push:
     branches:
-      - main
       - stage
       - prod
 
   workflow_dispatch:
     inputs:
       ref:
-        description: 'ref to be deployed (e.g. "refs/heads/main", "refs/heads/stage", "refs/heads/prod")'
+        description: 'ref to be deployed (e.g. "refs/heads/stage", "refs/heads/prod")'
         type: string
         required: true
-        default: refs/heads/main
+        default: refs/heads/stage
 
 env:
   APP: mozilla-language-portal

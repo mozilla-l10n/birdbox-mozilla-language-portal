@@ -18,6 +18,27 @@
 </div>
 {% endif %}
 
+{% if search_results %}
+  <div>
+    <h2>Translation Matches</h2>
+    <dl class="mzp-u-list-styled">
+      {% for item in search_results %}
+          <br>
+          <dt>{{ item.source }}</dt>
+          <dd>{{ item.target }}</dd>
+          {% if item.project.name %}
+          <em>Project: {{ item.project.name }}</em>
+          {% endif %}
+          <br>
+      {% endfor %}
+    </dl>
+  </div>
+{% elif translation_error %}
+  <div>
+    <p>Error fetching translations: {{ translation_error }}</p>
+  </div>
+{% endif %}
+
 {% for block in page.content %}
   {# Breadcrumbs go after the hero unit #}
   {% include "microsite/partials/block_with_breadcrumbs_where_appropriate.html" %}
