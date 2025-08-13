@@ -10,14 +10,6 @@
 
 {% block content %}
 
-{% block_with_h1_exists_in_page page as h1_exists %}
-
-{% if not h1_exists %}
-<div class="{% get_layout_class_from_page %}">
-  <h1>{{page.title}}</h1>
-</div>
-{% endif %}
-
 {% if search_results %}
   <div>
     <h2>Translation Matches</h2>
@@ -26,8 +18,8 @@
           <br>
           <dt>{{ item.source }}</dt>
           <dd>{{ item.target }}</dd>
-          {% if item.project.name %}
-          <em>Project: {{ item.project.name }}</em>
+          {% if item.project %}
+          <em>Project: {{ item.project }}</em>
           {% endif %}
           <br>
       {% endfor %}
