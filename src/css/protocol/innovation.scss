@@ -215,6 +215,29 @@ body.brand-theme-innovation {
                 margin-bottom: 0;
             }
         }
+
+        .background-wrapper {
+            position: relative;
+            text-align: center;
+
+            img {
+                max-width: 830px;
+            }
+
+            .h-dither-fade {
+                bottom: 0;
+                left: 0;
+                right: 0;
+                position: absolute;
+                width: 100%;
+
+                svg {
+                    color: #000;
+                    width: 100%;
+                }
+            }
+
+        }
     }
 
     h2.mzp-c-section-heading {
@@ -376,29 +399,6 @@ body.brand-theme-innovation {
                 background: #FF9455;
             }
         }
-    }
-
-    .background-wrapper {
-        position: relative;
-        text-align: center;
-
-        img {
-            max-width: 830px;
-        }
-
-        .h-dither-fade {
-            bottom: 0;
-            left: 0;
-            right: 0;
-            position: absolute;
-            width: 100%;
-
-            svg {
-                color: #000;
-                width: 100%;
-            }
-        }
-
     }
 
     .mzp-c-footer {

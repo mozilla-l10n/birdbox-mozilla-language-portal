@@ -36,7 +36,7 @@ def process_form(page, request, *args, **kwargs):
                 redirect_page = form_def.post_redirect_page or page
                 query_params = {
                     "search": form.cleaned_data.get("search"),
-                    "locale": LOCALE_MAP.get(form.cleaned_data.get("language"), "en-US"),
+                    "locale": LOCALE_MAP.get(form.cleaned_data.get("language"), "en-GB"),
                 }
                 redirect_url = f"{redirect_page.get_url(request)}?{urlencode(query_params)}"
                 return redirect(redirect_url)
