@@ -2,8 +2,8 @@
 {% load microsite_tags wagtailcore_tags wagtailmetadata_tags %}
 
 {% block extra_head %}
-  {{block.super}}
-  {% meta_tags %}
+{{block.super}}
+{% meta_tags %}
 {% endblock extra_head %}
 
 {% block body_class %}template-home{% endblock %}
@@ -19,20 +19,25 @@
 {% endif %}
 
 {% for block in page.content %}
-    {% include_block block %}
+{% include_block block %}
 {% endfor %}
 
 {% if blog_feed_entries %}
-    <h2>Latest from our Blog</h2>
-      {% for entry in blog_feed_entries %}
-      <section class="mzp-c-emphasis-box">
-          <h3><a href="{{ entry.link }}" target="_blank" rel="noopener noreferrer">{{ entry.title }}</a></h3>
-          <div>
-            {{ entry.summary|safe }}
-          </div>  
-      </section>
-      {% endfor %}
+<section class="blog-feed">
+  <h4>The Latest Stories / <a href="https://blog.mozilla.org/l10n/" target="_blank" rel="noopener noreferrer">View all</a></h4>
+  <ul>
+    {% for entry in blog_feed_entries %}
+    <li class="blog-entry">
+      <div class="title">{{ entry.title }}</div>
+      <div class="summary">{{ entry.summary }}</div>
+      <div class="read-more">Read more</div>
+      <a href="{{ entry.link }}" target="_blank" rel="noopener noreferrer">
+        Read mode
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
 {% endif %}
-
 
 {% endblock content %}

@@ -7,8 +7,7 @@ See https://wagtailstreamforms.readthedocs.io/en/latest/templates.html
 
 {% gather_field_errors form as form_errors %}
 
-<div class="{% get_layout_class_from_page %}">
-  <h2>{{ value.form.title }}</h2>
+<div class="search-form {% get_layout_class_from_page %}">
   {% if form_errors %}
   <div class="mzp-c-form-errors">
     <ul class="mzp-u-list-styled">
@@ -26,8 +25,229 @@ See https://wagtailstreamforms.readthedocs.io/en/latest/templates.html
       <fieldset class="mzp-c-field-set">
         {% for field in form.visible_fields %}
           {% include 'streamforms/partials/form_field.html' %}
-      {% endfor %}
+        {% endfor %}
       </fieldset>
-      <input type="submit" class="mzp-c-button" value="{{ value.form.submit_button_text }}">
   </form>
+
+  <div class="background-wrapper">
+    <img src="static/img/earth.png">
+    <div class="h-dither-fade">
+      <svg class="pointer-events-none h-full w-full text-main" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <pattern id="dither-email-signup" patternUnits="userSpaceOnUse" width="16" height="173">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M2 50H3V51H2V52H3V51H4V52H5V53H4V54H3V53H2V54H3V55H2V56H3V55H4V56H5V55H4V54H5V53H6V54H7V55H6V56H7V55H8V56H9V55H8V54H9V53H8V54H7V53H6V52H7V51H8V52H9V51H8V50H9V49H10V50H11V51H10V52H11V51H12V52H13V53H12V54H11V53H10V54H11V55H10V56H11V55H12V56H13V55H12V54H13V53H14V54H15V55H14V56H15V55H16V58H15V57H14V58H15V59H14V60H15V59H16V66H15V65H14V66H15V67H14V68H15V67H16V173H0V122H1V121H0V114H1V113H0V106H1V105H0V102H1V101H0V98H1V97H0V94H1V93H0V90H1V89H0V86H1V85H0V82H1V81H0V80H1V79H0V78H1V77H0V74H1V73H0V72H1V71H0V70H1V69H0V68H1V67H0V66H1V65H0V64H1V63H0V62H1V61H0V60H1V59H0V58H1V57H0V56H1V55H0V54H1V53H0V52H1V51H0V50H1V49H2V50ZM14 172H15V171H14V172ZM6 164H7V163H6V164ZM6 156H7V155H6V156ZM14 156H15V155H14V156ZM2 152H3V151H2V152ZM6 148H7V147H6V148ZM14 148H15V147H14V148ZM2 144H3V143H2V144ZM6 144H7V143H6V144ZM10 144H11V143H10V144ZM6 140H7V139H6V140ZM14 140H15V139H14V140ZM2 136H3V135H2V136ZM6 136H7V135H6V136ZM10 136H11V135H10V136ZM14 136H15V135H14V136ZM2 132H3V131H2V132ZM6 132H7V131H6V132ZM14 132H15V131H14V132ZM2 128H3V127H2V128ZM6 128H7V127H6V128ZM10 128H11V127H10V128ZM14 128H15V127H14V128ZM2 124H3V123H2V124ZM6 124H7V123H6V124ZM10 124H11V123H10V124ZM14 124H15V123H14V124ZM8 122H9V121H8V122ZM2 120H3V119H2V120ZM6 120H7V119H6V120ZM10 120H11V119H10V120ZM14 120H15V119H14V120ZM4 118H5V117H4V118ZM2 116H3V115H2V116ZM6 116H7V115H6V116ZM10 116H11V115H10V116ZM14 116H15V115H14V116ZM8 114H9V113H8V114ZM2 112H3V111H2V112ZM6 112H7V111H6V112ZM10 112H11V111H10V112ZM14 112H15V111H14V112ZM4 110H5V109H4V110ZM12 110H13V109H12V110ZM2 108H3V107H2V108ZM6 108H7V107H6V108ZM10 108H11V107H10V108ZM14 108H15V107H14V108ZM4 106H5V105H4V106ZM8 106H9V105H8V106ZM12 106H13V105H12V106ZM2 104H3V103H2V104ZM6 104H7V103H6V104ZM10 104H11V103H10V104ZM14 104H15V103H14V104ZM4 102H5V101H4V102ZM8 102H9V101H8V102ZM12 102H13V101H12V102ZM2 100H3V99H2V100ZM6 100H7V99H6V100ZM10 100H11V99H10V100ZM14 100H15V99H14V100ZM4 98H5V97H4V98ZM6 98H7V97H6V98ZM8 98H9V97H8V98ZM12 98H13V97H12V98ZM14 98H15V97H14V98ZM2 96H3V95H2V96ZM6 96H7V95H6V96ZM10 96H11V95H10V96ZM14 96H15V95H14V96ZM2 94H3V93H2V94ZM4 94H5V93H4V94ZM8 94H9V93H8V94ZM10 94H11V93H10V94ZM12 94H13V93H12V94ZM2 92H3V91H2V92ZM6 92H7V91H6V92ZM10 92H11V91H10V92ZM14 92H15V91H14V92ZM4 90H5V89H4V90ZM6 90H7V89H6V90ZM8 90H9V89H8V90ZM12 90H13V89H12V90ZM14 90H15V89H14V90ZM2 88H3V87H2V88ZM6 88H7V87H6V88ZM10 88H11V87H10V88ZM14 88H15V87H14V88ZM2 86H3V85H2V86ZM4 86H5V85H4V86ZM6 86H7V85H6V86ZM8 86H9V85H8V86ZM10 86H11V85H10V86ZM12 86H13V85H12V86ZM14 86H15V85H14V86ZM2 84H3V83H2V84ZM6 84H7V83H6V84ZM10 84H11V83H10V84ZM14 84H15V83H14V84ZM2 82H3V81H2V82ZM4 82H5V81H4V82ZM6 82H7V81H6V82ZM8 82H9V81H8V82ZM10 82H11V81H10V82ZM12 82H13V81H12V82ZM14 82H15V81H14V82ZM2 80H3V79H2V80ZM6 80H7V79H6V80ZM8 80H9V79H8V80ZM10 80H11V79H10V80ZM14 80H15V79H14V80ZM2 78H3V77H2V78ZM4 78H5V77H4V78ZM6 78H7V77H6V78ZM8 78H9V77H8V78ZM10 78H11V77H10V78ZM12 78H13V77H12V78ZM14 78H15V77H14V78ZM2 76H3V75H2V76ZM4 76H5V75H4V76ZM6 76H7V75H6V76ZM10 76H11V75H10V76ZM12 76H13V75H12V76ZM14 76H15V75H14V76ZM2 74H3V73H2V74ZM4 74H5V73H4V74ZM6 74H7V73H6V74ZM8 74H9V73H8V74ZM10 74H11V73H10V74ZM12 74H13V73H12V74ZM14 74H15V73H14V74ZM2 72H3V71H2V72ZM4 72H5V71H4V72ZM6 72H7V71H6V72ZM8 72H9V71H8V72ZM10 72H11V71H10V72ZM12 72H13V71H12V72ZM14 72H15V71H14V72ZM2 70H3V69H2V70ZM4 70H5V69H4V70ZM6 70H7V69H6V70ZM8 70H9V69H8V70ZM10 70H11V69H10V70ZM12 70H13V69H12V70ZM14 70H15V69H14V70ZM2 68H3V67H2V68ZM4 68H5V67H4V68ZM6 66H7V67H6V68H7V67H8V68H9V67H8V66H9V65H8V66H7V65H6V66ZM10 68H11V67H10V68ZM12 68H13V67H12V68ZM2 66H3V65H2V66ZM4 66H5V65H4V66ZM10 66H11V65H10V66ZM12 66H13V65H12V66ZM2 62H3V63H2V64H3V63H4V64H5V63H4V62H5V61H4V62H3V61H2V62ZM6 64H7V63H6V64ZM8 64H9V63H8V64ZM10 62H11V63H10V64H11V63H12V64H13V63H12V62H13V61H12V62H11V61H10V62ZM14 64H15V63H14V64ZM6 62H7V61H6V62ZM8 62H9V61H8V62ZM14 62H15V61H14V62ZM2 60H3V59H2V60ZM4 60H5V59H4V60ZM6 58H7V59H6V60H7V59H8V60H9V59H8V58H9V57H8V58H7V57H6V58ZM10 58H11V59H10V60H11V59H12V60H13V59H12V58H13V57H12V58H11V57H10V58ZM2 58H3V57H2V58ZM4 58H5V57H4V58Z" fill="currentColor"></path>
+            <path d="M16 54H15V53H14V52H15V51H16V54Z" fill="currentColor"></path>
+            <path d="M6 50H7V51H6V52H5V51H4V50H5V49H6V50Z" fill="currentColor"></path>
+            <path d="M14 50H15V51H14V52H13V51H12V50H13V49H14V50Z" fill="currentColor"></path>
+            <path d="M4 48H5V49H4V50H3V49H2V48H3V47H4V48Z" fill="currentColor"></path>
+            <path d="M8 48H9V49H8V50H7V49H6V48H7V47H8V48Z" fill="currentColor"></path>
+            <path d="M12 48H13V49H12V50H11V49H10V48H11V47H12V48Z" fill="currentColor"></path>
+            <path d="M16 50H15V49H14V48H15V47H16V50Z" fill="currentColor"></path>
+            <path d="M1 49H0V48H1V49Z" fill="currentColor"></path>
+            <path d="M2 46H3V47H2V48H1V47H0V46H1V45H2V46Z" fill="currentColor"></path>
+            <path d="M6 46H7V47H6V48H5V47H4V46H5V45H6V46Z" fill="currentColor"></path>
+            <path d="M10 46H11V47H10V48H9V47H8V46H9V45H10V46Z" fill="currentColor"></path>
+            <path d="M14 46H15V47H14V48H13V47H12V46H13V45H14V46Z" fill="currentColor"></path>
+            <path d="M4 44H5V45H4V46H3V45H2V44H3V43H4V44Z" fill="currentColor"></path>
+            <path d="M8 44H9V45H8V46H7V45H6V44H7V43H8V44Z" fill="currentColor"></path>
+            <path d="M12 44H13V45H12V46H11V45H10V44H11V43H12V44Z" fill="currentColor"></path>
+            <path d="M16 46H15V45H14V44H15V43H16V46Z" fill="currentColor"></path>
+            <path d="M1 45H0V44H1V45Z" fill="currentColor"></path>
+            <path d="M2 42H3V43H2V44H1V43H0V42H1V41H2V42Z" fill="currentColor"></path>
+            <path d="M6 44H5V43H6V44Z" fill="currentColor"></path>
+            <path d="M10 42H11V43H10V44H9V43H8V42H9V41H10V42Z" fill="currentColor"></path>
+            <path d="M14 44H13V43H14V44Z" fill="currentColor"></path>
+            <path d="M5 43H4V42H5V43Z" fill="currentColor"></path>
+            <path d="M7 43H6V42H7V43Z" fill="currentColor"></path>
+            <path d="M13 43H12V42H13V43Z" fill="currentColor"></path>
+            <path d="M15 43H14V42H15V43Z" fill="currentColor"></path>
+            <path d="M4 40H5V41H4V42H3V41H2V40H3V39H4V40Z" fill="currentColor"></path>
+            <path d="M6 42H5V41H6V42Z" fill="currentColor"></path>
+            <path d="M8 40H9V41H8V42H7V41H6V40H7V39H8V40Z" fill="currentColor"></path>
+            <path d="M12 40H13V41H12V42H11V41H10V40H11V39H12V40Z" fill="currentColor"></path>
+            <path d="M14 42H13V41H14V42Z" fill="currentColor"></path>
+            <path d="M16 42H15V41H16V42Z" fill="currentColor"></path>
+            <path d="M1 41H0V40H1V41Z" fill="currentColor"></path>
+            <path d="M15 41H14V40H15V41Z" fill="currentColor"></path>
+            <path d="M2 40H1V39H2V40Z" fill="currentColor"></path>
+            <path d="M6 40H5V39H6V40Z" fill="currentColor"></path>
+            <path d="M10 40H9V39H10V40Z" fill="currentColor"></path>
+            <path d="M14 40H13V39H14V40Z" fill="currentColor"></path>
+            <path d="M16 40H15V39H16V40Z" fill="currentColor"></path>
+            <path d="M1 39H0V38H1V39Z" fill="currentColor"></path>
+            <path d="M3 39H2V38H3V39Z" fill="currentColor"></path>
+            <path d="M5 39H4V38H5V39Z" fill="currentColor"></path>
+            <path d="M7 39H6V38H7V39Z" fill="currentColor"></path>
+            <path d="M9 39H8V38H9V39Z" fill="currentColor"></path>
+            <path d="M11 39H10V38H11V39Z" fill="currentColor"></path>
+            <path d="M13 39H12V38H13V39Z" fill="currentColor"></path>
+            <path d="M15 39H14V38H15V39Z" fill="currentColor"></path>
+            <path d="M2 38H1V37H2V38Z" fill="currentColor"></path>
+            <path d="M4 38H3V37H4V38Z" fill="currentColor"></path>
+            <path d="M6 38H5V37H6V38Z" fill="currentColor"></path>
+            <path d="M8 36H9V37H8V38H7V37H6V36H7V35H8V36Z" fill="currentColor"></path>
+            <path d="M10 38H9V37H10V38Z" fill="currentColor"></path>
+            <path d="M12 38H11V37H12V38Z" fill="currentColor"></path>
+            <path d="M14 38H13V37H14V38Z" fill="currentColor"></path>
+            <path d="M16 38H15V37H14V36H15V35H16V38Z" fill="currentColor"></path>
+            <path d="M1 37H0V36H1V37Z" fill="currentColor"></path>
+            <path d="M3 37H2V36H3V37Z" fill="currentColor"></path>
+            <path d="M5 37H4V36H5V37Z" fill="currentColor"></path>
+            <path d="M11 37H10V36H11V37Z" fill="currentColor"></path>
+            <path d="M13 37H12V36H13V37Z" fill="currentColor"></path>
+            <path d="M2 36H1V35H2V36Z" fill="currentColor"></path>
+            <path d="M4 36H3V35H4V36Z" fill="currentColor"></path>
+            <path d="M6 36H5V35H6V36Z" fill="currentColor"></path>
+            <path d="M10 36H9V35H10V36Z" fill="currentColor"></path>
+            <path d="M12 36H11V35H12V36Z" fill="currentColor"></path>
+            <path d="M14 36H13V35H14V36Z" fill="currentColor"></path>
+            <path d="M1 35H0V34H1V35Z" fill="currentColor"></path>
+            <path d="M3 35H2V34H3V35Z" fill="currentColor"></path>
+            <path d="M5 35H4V34H5V35Z" fill="currentColor"></path>
+            <path d="M7 35H6V34H7V35Z" fill="currentColor"></path>
+            <path d="M9 35H8V34H9V35Z" fill="currentColor"></path>
+            <path d="M11 35H10V34H11V35Z" fill="currentColor"></path>
+            <path d="M13 35H12V34H13V35Z" fill="currentColor"></path>
+            <path d="M15 35H14V34H15V35Z" fill="currentColor"></path>
+            <path d="M2 34H1V33H2V34Z" fill="currentColor"></path>
+            <path d="M4 34H3V33H4V34Z" fill="currentColor"></path>
+            <path d="M6 34H5V33H6V34Z" fill="currentColor"></path>
+            <path d="M8 34H7V33H8V34Z" fill="currentColor"></path>
+            <path d="M10 34H9V33H10V34Z" fill="currentColor"></path>
+            <path d="M12 34H11V33H12V34Z" fill="currentColor"></path>
+            <path d="M14 34H13V33H14V34Z" fill="currentColor"></path>
+            <path d="M16 34H15V33H16V34Z" fill="currentColor"></path>
+            <path d="M1 33H0V32H1V33Z" fill="currentColor"></path>
+            <path d="M3 33H2V32H3V33Z" fill="currentColor"></path>
+            <path d="M5 33H4V32H5V33Z" fill="currentColor"></path>
+            <path d="M7 33H6V32H7V33Z" fill="currentColor"></path>
+            <path d="M9 33H8V32H9V33Z" fill="currentColor"></path>
+            <path d="M11 33H10V32H11V33Z" fill="currentColor"></path>
+            <path d="M13 33H12V32H13V33Z" fill="currentColor"></path>
+            <path d="M15 33H14V32H15V33Z" fill="currentColor"></path>
+            <path d="M2 32H1V31H2V32Z" fill="currentColor"></path>
+            <path d="M6 32H5V31H6V32Z" fill="currentColor"></path>
+            <path d="M10 32H9V31H10V32Z" fill="currentColor"></path>
+            <path d="M14 32H13V31H14V32Z" fill="currentColor"></path>
+            <path d="M16 32H15V31H16V32Z" fill="currentColor"></path>
+            <path d="M1 31H0V30H1V31Z" fill="currentColor"></path>
+            <path d="M3 31H2V30H3V31Z" fill="currentColor"></path>
+            <path d="M5 31H4V30H5V31Z" fill="currentColor"></path>
+            <path d="M7 31H6V30H7V31Z" fill="currentColor"></path>
+            <path d="M9 31H8V30H9V31Z" fill="currentColor"></path>
+            <path d="M11 31H10V30H11V31Z" fill="currentColor"></path>
+            <path d="M13 31H12V30H13V31Z" fill="currentColor"></path>
+            <path d="M15 31H14V30H15V31Z" fill="currentColor"></path>
+            <path d="M2 30H1V29H2V30Z" fill="currentColor"></path>
+            <path d="M4 30H3V29H4V30Z" fill="currentColor"></path>
+            <path d="M6 30H5V29H6V30Z" fill="currentColor"></path>
+            <path d="M8 30H7V29H8V30Z" fill="currentColor"></path>
+            <path d="M10 30H9V29H10V30Z" fill="currentColor"></path>
+            <path d="M12 30H11V29H12V30Z" fill="currentColor"></path>
+            <path d="M14 30H13V29H14V30Z" fill="currentColor"></path>
+            <path d="M16 30H15V29H16V30Z" fill="currentColor"></path>
+            <path d="M1 29H0V28H1V29Z" fill="currentColor"></path>
+            <path d="M3 29H2V28H3V29Z" fill="currentColor"></path>
+            <path d="M5 29H4V28H5V29Z" fill="currentColor"></path>
+            <path d="M7 29H6V28H7V29Z" fill="currentColor"></path>
+            <path d="M9 29H8V28H9V29Z" fill="currentColor"></path>
+            <path d="M11 29H10V28H11V29Z" fill="currentColor"></path>
+            <path d="M13 29H12V28H13V29Z" fill="currentColor"></path>
+            <path d="M15 29H14V28H15V29Z" fill="currentColor"></path>
+            <path d="M2 28H1V27H2V28Z" fill="currentColor"></path>
+            <path d="M6 28H5V27H6V28Z" fill="currentColor"></path>
+            <path d="M10 28H9V27H10V28Z" fill="currentColor"></path>
+            <path d="M14 28H13V27H14V28Z" fill="currentColor"></path>
+            <path d="M1 27H0V26H1V27Z" fill="currentColor"></path>
+            <path d="M3 27H2V26H3V27Z" fill="currentColor"></path>
+            <path d="M5 27H4V26H5V27Z" fill="currentColor"></path>
+            <path d="M7 27H6V26H7V27Z" fill="currentColor"></path>
+            <path d="M9 27H8V26H9V27Z" fill="currentColor"></path>
+            <path d="M11 27H10V26H11V27Z" fill="currentColor"></path>
+            <path d="M13 27H12V26H13V27Z" fill="currentColor"></path>
+            <path d="M15 27H14V26H15V27Z" fill="currentColor"></path>
+            <path d="M4 26H3V25H4V26Z" fill="currentColor"></path>
+            <path d="M8 26H7V25H8V26Z" fill="currentColor"></path>
+            <path d="M12 26H11V25H12V26Z" fill="currentColor"></path>
+            <path d="M16 26H15V25H16V26Z" fill="currentColor"></path>
+            <path d="M1 25H0V24H1V25Z" fill="currentColor"></path>
+            <path d="M3 25H2V24H3V25Z" fill="currentColor"></path>
+            <path d="M5 25H4V24H5V25Z" fill="currentColor"></path>
+            <path d="M7 25H6V24H7V25Z" fill="currentColor"></path>
+            <path d="M9 25H8V24H9V25Z" fill="currentColor"></path>
+            <path d="M11 25H10V24H11V25Z" fill="currentColor"></path>
+            <path d="M13 25H12V24H13V25Z" fill="currentColor"></path>
+            <path d="M15 25H14V24H15V25Z" fill="currentColor"></path>
+            <path d="M2 24H1V23H2V24Z" fill="currentColor"></path>
+            <path d="M6 24H5V23H6V24Z" fill="currentColor"></path>
+            <path d="M10 24H9V23H10V24Z" fill="currentColor"></path>
+            <path d="M14 24H13V23H14V24Z" fill="currentColor"></path>
+            <path d="M1 23H0V22H1V23Z" fill="currentColor"></path>
+            <path d="M3 23H2V22H3V23Z" fill="currentColor"></path>
+            <path d="M5 23H4V22H5V23Z" fill="currentColor"></path>
+            <path d="M7 23H6V22H7V23Z" fill="currentColor"></path>
+            <path d="M9 23H8V22H9V23Z" fill="currentColor"></path>
+            <path d="M11 23H10V22H11V23Z" fill="currentColor"></path>
+            <path d="M13 23H12V22H13V23Z" fill="currentColor"></path>
+            <path d="M15 23H14V22H15V23Z" fill="currentColor"></path>
+            <path d="M1 21H0V20H1V21Z" fill="currentColor"></path>
+            <path d="M3 21H2V20H3V21Z" fill="currentColor"></path>
+            <path d="M5 21H4V20H5V21Z" fill="currentColor"></path>
+            <path d="M7 21H6V20H7V21Z" fill="currentColor"></path>
+            <path d="M9 21H8V20H9V21Z" fill="currentColor"></path>
+            <path d="M11 21H10V20H11V21Z" fill="currentColor"></path>
+            <path d="M13 21H12V20H13V21Z" fill="currentColor"></path>
+            <path d="M15 21H14V20H15V21Z" fill="currentColor"></path>
+            <path d="M2 20H1V19H2V20Z" fill="currentColor"></path>
+            <path d="M10 20H9V19H10V20Z" fill="currentColor"></path>
+            <path d="M1 19H0V18H1V19Z" fill="currentColor"></path>
+            <path d="M3 19H2V18H3V19Z" fill="currentColor"></path>
+            <path d="M5 19H4V18H5V19Z" fill="currentColor"></path>
+            <path d="M7 19H6V18H7V19Z" fill="currentColor"></path>
+            <path d="M9 19H8V18H9V19Z" fill="currentColor"></path>
+            <path d="M11 19H10V18H11V19Z" fill="currentColor"></path>
+            <path d="M13 19H12V18H13V19Z" fill="currentColor"></path>
+            <path d="M15 19H14V18H15V19Z" fill="currentColor"></path>
+            <path d="M1 17H0V16H1V17Z" fill="currentColor"></path>
+            <path d="M3 17H2V16H3V17Z" fill="currentColor"></path>
+            <path d="M5 17H4V16H5V17Z" fill="currentColor"></path>
+            <path d="M7 17H6V16H7V17Z" fill="currentColor"></path>
+            <path d="M9 17H8V16H9V17Z" fill="currentColor"></path>
+            <path d="M11 17H10V16H11V17Z" fill="currentColor"></path>
+            <path d="M13 17H12V16H13V17Z" fill="currentColor"></path>
+            <path d="M15 17H14V16H15V17Z" fill="currentColor"></path>
+            <path d="M1 15H0V14H1V15Z" fill="currentColor"></path>
+            <path d="M3 15H2V14H3V15Z" fill="currentColor"></path>
+            <path d="M7 15H6V14H7V15Z" fill="currentColor"></path>
+            <path d="M11 15H10V14H11V15Z" fill="currentColor"></path>
+            <path d="M15 15H14V14H15V15Z" fill="currentColor"></path>
+            <path d="M1 13H0V12H1V13Z" fill="currentColor"></path>
+            <path d="M3 13H2V12H3V13Z" fill="currentColor"></path>
+            <path d="M5 13H4V12H5V13Z" fill="currentColor"></path>
+            <path d="M7 13H6V12H7V13Z" fill="currentColor"></path>
+            <path d="M9 13H8V12H9V13Z" fill="currentColor"></path>
+            <path d="M11 13H10V12H11V13Z" fill="currentColor"></path>
+            <path d="M13 13H12V12H13V13Z" fill="currentColor"></path>
+            <path d="M15 13H14V12H15V13Z" fill="currentColor"></path>
+            <path d="M3 11H2V10H3V11Z" fill="currentColor"></path>
+            <path d="M7 11H6V10H7V11Z" fill="currentColor"></path>
+            <path d="M11 11H10V10H11V11Z" fill="currentColor"></path>
+            <path d="M15 11H14V10H15V11Z" fill="currentColor"></path>
+            <path d="M1 9H0V8H1V9Z" fill="currentColor"></path>
+            <path d="M5 9H4V8H5V9Z" fill="currentColor"></path>
+            <path d="M9 9H8V8H9V9Z" fill="currentColor"></path>
+            <path d="M13 9H12V8H13V9Z" fill="currentColor"></path>
+            <path d="M7 7H6V6H7V7Z" fill="currentColor"></path>
+            <path d="M15 7H14V6H15V7Z" fill="currentColor"></path>
+            <path d="M1 5H0V4H1V5Z" fill="currentColor"></path>
+            <path d="M5 5H4V4H5V5Z" fill="currentColor"></path>
+            <path d="M9 5H8V4H9V5Z" fill="currentColor"></path>
+            <path d="M13 5H12V4H13V5Z" fill="currentColor"></path>
+            <path d="M13 1H12V0H13V1Z" fill="currentColor"></path>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dither-email-signup)"></rect>
+      </svg>
+    </div>
+  </div>
 </div>

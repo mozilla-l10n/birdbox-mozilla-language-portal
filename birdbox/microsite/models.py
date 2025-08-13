@@ -2,6 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+from bs4 import BeautifulSoup
 from typing import List
 
 from django import forms
@@ -372,7 +373,27 @@ class HomePage(BaseProtocolPage):
     def get_feed_entries(self):
         url = 'https://blog.mozilla.org/l10n/rss'
         feed = feedparser.parse(url)
-        return feed.entries[:3] if feed.entries else []
+        clean_entries = []
+
+        for i, entry in enumerate(feed.entries):
+            # Only collect last 3 blog entries
+            if i == 3:
+                break
+
+            # Remove last <a> tag if it says "Read more"
+            soup = BeautifulSoup(entry.summary, "html.parser")
+
+            if soup.a and 'read more' in soup.a.text.lower():
+                soup.a.decompose()
+
+            # Only collect relevant data
+            clean_entries.append({
+                "title": entry.title,
+                "link": entry.link,
+                "summary": str(soup),
+            })
+
+        return clean_entries
 
 
     def get_context(self, request, *args, **kwargs):
