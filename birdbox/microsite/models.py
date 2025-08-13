@@ -791,7 +791,7 @@ class ProductPage(BaseProtocolPage):
         context = super().get_context(request, *args, **kwargs)
 
         search = request.GET.get("search")
-        locale = request.GET.get("locale", "en-US")
+        locale = request.GET.get("locale", "en-GB")
 
         if search:
             url = "https://pontoon.mozilla.org/api/v2/search/tm/"

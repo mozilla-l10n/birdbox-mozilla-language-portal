@@ -1,5 +1,5 @@
 {% if field.name == "search" %}
-  <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="Search translations" autofocus>
+  <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="Search translations" required autofocus>
 {% else %}
   {{ field }}
 {% endif %}
