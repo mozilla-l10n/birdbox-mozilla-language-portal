@@ -1,13 +1,5 @@
-<div class="mzp-c-field{% if field.errors %} mzp-is-error{% endif %}">
-  <label class="mzp-c-field-label" for="id_{{field.name}}">
-    {{ field.label }}
-    {% if field.help_text %}<span class="mzp-c-fieldnote">{{ field.help_text }}</span>{% endif %}
-    {% if field.field.required %}
-    <span class="mzp-c-fieldnote">Required</span>
-    {% endif %}
-  </label>
-  {{field}}
-  {% if field.errors %}
-  <div id="{{field.name}}-msg" class="mzp-c-fieldnote">{{ field.errors }}</div>
-  {% endif %}
-</div>
+{% if field.name == "search" %}
+  <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="Search translations" autofocus>
+{% else %}
+  {{ field }}
+{% endif %}
