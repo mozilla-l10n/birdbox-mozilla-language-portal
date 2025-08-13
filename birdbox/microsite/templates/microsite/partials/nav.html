@@ -9,8 +9,23 @@
                 Menu
             </button>
             {% endif %}
+
+            <div class="c-navigation-home">
+              <a href="/" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="enable-background:new 0 0 199.1 233.1" viewBox="0 0 199.1 233.1"><path d="M29.8 233.1H0V0h29.8v233.1zm24.4-114.2h118v-6.7l-76.9-28V60.7l76.9-27.9V26H81.1V0h118v47.5l-62.6 21.6v6.7l62.6 21.6v47.5H54.2v-26zm0-92.9h26.9v26.9H54.2V26z" style="fill:currentColor"/></svg>
+              </a>
+            </div>
+
+            {% if cta_label and cta_url %}
+            <div class="c-navigation-shoulder">
+                <a href="{{cta_url}}" class="nav-button mzp-c-button {{nav_theme_class}} {% get_layout_class_from_page %}">
+                {{cta_label}}
+                </a>
+            </div>
+            {% endif %}
+
             <div class="c-navigation-logo">
-              <a href="/">Mozilla</a>
+              <a href="/">Mozilla Language Portal</a>
             </div>
 
             <div class="c-navigation-items" id="navigation-bar">
@@ -21,11 +36,11 @@
                         {% for top_level_page in nav_links %}
                             {% if not top_level_page.specific.get_children_for_nav.exists %}
                             <li class="c-menu-category">
-                                <a class="c-menu-title" href="{{top_level_page.url}}">{{top_level_page.title}}</a>
+                                <a class="c-menu-title nav-button" href="{{top_level_page.url}}">{{top_level_page.title}}</a>
                             </li>
                             {% else %}
                             <li class="c-menu-category mzp-has-drop-down mzp-js-expandable">
-                                <a class="c-menu-title" href="{{top_level_page.url}}" aria-haspopup="true" aria-controls="c-menu-panel-{{top_level_page.slug}}">{{top_level_page.title}}</a>
+                                <a class="c-menu-title nav-button" href="{{top_level_page.url}}" aria-haspopup="true" aria-controls="c-menu-panel-{{top_level_page.slug}}">{{top_level_page.title}}</a>
                                 <div class="c-menu-panel mzp-has-card" id="mzp-c-menu-panel-{{top_level_page.slug}}">
                                     <div class="c-menu-panel-container">
                                         <button class="c-menu-button-close" type="button" aria-controls="mzp-c-menu-panel-{{top_level_page.slug}}">
@@ -59,13 +74,6 @@
                     </nav>
                     {% endif %} {# nav_links #}
                 </div>
-              {% if cta_label and cta_url %}
-                <div class="c-navigation-shoulder">
-                  <a href="{{cta_url}}" class="mzp-c-button {{nav_theme_class}} {% get_layout_class_from_page %}">
-                    {{cta_label}}
-                  </a>
-                </div>
-              {% endif %}
             </div>
         </div>
     </div>
