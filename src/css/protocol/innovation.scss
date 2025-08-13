@@ -43,6 +43,7 @@ body.brand-theme-innovation {
         // background-color: transparent;
         position: fixed;
         text-align: center;
+        top: 0;
         width: 100%;
         z-index: 10;
 
@@ -245,14 +246,14 @@ body.brand-theme-innovation {
         font-size: 72px;
         max-width: none;
         line-height: 0.9em;
-        padding: 80px 32px;
+        padding: 80px 20px;
     }
 
     .bb-column-block {
         margin: 100px auto;
 
         .mzp-l-content {
-            padding: 0 32px;
+            padding: 0 20px;
             max-width: none;
 
             .bb-column-block-title {
@@ -266,6 +267,10 @@ body.brand-theme-innovation {
 
                 .mzp-c-picto {
                     position: relative;
+
+                    .mzp-c-card-image {
+                        width: 100%;
+                    }
 
                     .mzp-c-picto-heading {
                         color: #F0F0F099;
@@ -293,10 +298,22 @@ body.brand-theme-innovation {
                 }
             }
         }
+
+        .mzp-t-content-md {
+            p[data-block-key] {
+                color: #F0F0F099;
+                font-size: 20px;
+                font-family: var(--title-font-family);
+                font-weight: 500;
+                margin: 200px auto 0;
+                text-align: center;
+                width: 800px;
+            }
+        }
     }
 
     .blog-feed {
-        padding: 100px 0;
+        padding: 60px 0 80px;
 
         h4 {
             font-size: 14px;
@@ -316,7 +333,7 @@ body.brand-theme-innovation {
 
         .blog-entry {
             border-top: 1px solid #FAFAFA;
-            padding: 25px 150px 25px 32px;
+            padding: 25px 150px 25px 20px;
             position: relative;
 
             .title {
@@ -403,7 +420,7 @@ body.brand-theme-innovation {
 
     .mzp-c-footer {
         .mzp-l-content {
-            padding: 32px;
+            padding: 20px;
         }
     }
 }
