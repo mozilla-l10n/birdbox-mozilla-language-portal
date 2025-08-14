@@ -737,6 +737,14 @@ class ProductPage(BaseProtocolPage):
                 ),
             ),
             (
+                "custom_form",
+                WagtailFormBlock(
+                    label_format="Custom form",
+                    required=False,
+                    icon="radio-empty",
+                ),
+            ),
+            (
                 "split",
                 SplitBlock(
                     label="Split content",
