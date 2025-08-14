@@ -424,3 +424,52 @@ body.brand-theme-innovation {
         }
     }
 }
+
+body.template-product-landing-page {
+    .search-form {
+        margin-top: 100px;
+    }
+
+    .tm-entries {
+        .tm-entry {
+            border-top: 1px solid #FAFAFA;
+            padding: 25px 150px 25px 20px;
+            position: relative;
+
+            .source {
+                color: #F0F0F0B3;
+                font-size: 14px;
+                padding: 0 5px;
+                margin-bottom: 0;
+                margin-left: -5px;
+            }
+
+            .target {
+                font-size: 14px;
+                padding: 0 5px;
+                margin-left: -5px;
+            }
+
+            .project {
+                margin-bottom: 0;
+
+                a {
+                    color: #FFF;
+                    font-weight: 500;
+                    font-size: 14px;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .tm-entry:last-child {
+            border-bottom: 1px solid #FAFAFA;
+        }
+
+        .tm-entry:hover {
+            .summary {
+                color: #FFF;
+            }
+        }
+    }
+}

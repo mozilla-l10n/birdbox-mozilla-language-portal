@@ -10,30 +10,27 @@
 
 {% block content %}
 
+{% for block in page.content %}
+  {# Breadcrumbs go after the hero unit #}
+  {% include "microsite/partials/block_with_breadcrumbs_where_appropriate.html" %}
+{% endfor %}
+
 {% if search_results %}
-  <div>
-    <h2>Translation Matches</h2>
-    <dl class="mzp-u-list-styled">
-      {% for item in search_results %}
-          <br>
-          <dt>{{ item.source }}</dt>
-          <dd>{{ item.target }}</dd>
+  <ul class="tm-entries">
+    {% for item in search_results %}
+        <li class="tm-entry">
+          <p class="source">{{ item.source }}</p>
+          <p class="target">{{ item.target }}</p>
           {% if item.project %}
-          <em>Project: {{ item.project }}</em>
+          <p class="project"><a href="https://pontoon.mozilla.org/projects/{{ item.project }}/">{{ item.project }}</a></p>
           {% endif %}
-          <br>
-      {% endfor %}
-    </dl>
-  </div>
+        </li>
+    {% endfor %}
+  </ul>
 {% elif translation_error %}
   <div>
     <p>Error fetching translations: {{ translation_error }}</p>
   </div>
 {% endif %}
-
-{% for block in page.content %}
-  {# Breadcrumbs go after the hero unit #}
-  {% include "microsite/partials/block_with_breadcrumbs_where_appropriate.html" %}
-{% endfor %}
 
 {% endblock content %}
