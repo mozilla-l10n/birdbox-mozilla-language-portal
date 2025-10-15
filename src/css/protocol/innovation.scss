@@ -206,7 +206,8 @@ body.brand-theme-innovation {
                 display: inline-block;
                 font-family: var(--title-font-family);
 
-                background: #3c3c3cb3;
+                background: no-repeat url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='none' fill-rule='evenodd' stroke='%239595a2' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m5 9 7 7 7-7'/%3E%3C/svg%3E"), linear-gradient(180deg, #3c3c3cb3 0, #3c3c3cb3);
+                background-position: right 0.2em center, 0 0;
                 border: none;
                 border-radius: 0;
                 box-shadow: none;
@@ -214,6 +215,7 @@ body.brand-theme-innovation {
                 cursor: pointer;
                 font-size: 16px;
                 margin-bottom: 0;
+                max-width: 255px;
             }
         }
 
