@@ -40,7 +40,8 @@ html {
 
 body.brand-theme-innovation {
     .c-navigation {
-        // background-color: transparent;
+        background-color: transparent;
+        box-shadow: none;
         position: fixed;
         text-align: center;
         top: 0;
@@ -96,7 +97,13 @@ body.brand-theme-innovation {
                 position: absolute;
                 left: 50%;
                 margin: 16px 0;
-                transform: translateX(-50%);
+
+                /* Move smoothly */
+                transform:
+                    translateX(-50%)
+                    translateY(calc(-2px * min(var(--scroll-y, 0), 400)));
+                transition-duration: transform 0.5s;
+                transition-timing-function: cubic-bezier(.4,0,.2,1);
 
                 a {
                     display: inline;
@@ -126,6 +133,11 @@ body.brand-theme-innovation {
                 }
             }
         }
+    }
+
+    .background-image {
+        opacity: calc(1 - (var(--scroll-y) / 400));
+        position: absolute;
     }
 
     .hero-section {
@@ -164,6 +176,7 @@ body.brand-theme-innovation {
         font-family: var(--title-font-family);
         font-size: 20px;
         font-weight: 500;
+        position: relative;
     }
 
     .search-form {
@@ -250,6 +263,7 @@ body.brand-theme-innovation {
         max-width: none;
         line-height: 0.9em;
         padding: 80px 20px;
+        position: relative;
     }
 
     .bb-column-block {
