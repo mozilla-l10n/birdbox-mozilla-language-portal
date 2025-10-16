@@ -1,21 +1,20 @@
 from django.contrib import messages
+from django.core.management import call_command
 from django.shortcuts import redirect
 from django.template.response import TemplateResponse
+from django.urls import path, reverse
+from django.views.decorators.http import require_GET
 
 from wagtail import hooks
+from wagtail.admin import messages
+from wagtail.admin.menu import MenuItem
 
-from wagtailstreamforms.conf import get_setting
 from wagtailstreamforms.utils.requests import get_form_instance_from_request
 
 from urllib.parse import urlencode
 
-LOCALE_MAP = {
-    "Slovenian": "sl",
-    "English (US)": "en-US",
-    "English (UK)": "en-GB",
-    "Italian": "it",
-    "French": "fr",
-}
+from microsite.models import PontoonLocale
+
 
 @hooks.register('before_serve_page')
 def process_form(page, request, *args, **kwargs):
@@ -34,9 +33,15 @@ def process_form(page, request, *args, **kwargs):
                     messages.success(request, form_def.success_message, fail_silently=True)
 
                 redirect_page = form_def.post_redirect_page or page
+
+                try:
+                    locale = PontoonLocale.objects.get(code=form.cleaned_data.get("language", "en-GB")).code
+                except PontoonLocale.DoesNotExist:
+                    locale = "en-GB"
+
                 query_params = {
                     "search": form.cleaned_data.get("search"),
-                    "locale": LOCALE_MAP.get(form.cleaned_data.get("language"), "en-GB"),
+                    "locale": locale,
                 }
                 redirect_url = f"{redirect_page.get_url(request)}?{urlencode(query_params)}"
                 return redirect(redirect_url)
@@ -53,3 +58,24 @@ def process_form(page, request, *args, **kwargs):
                     page.get_template(request, *args, **kwargs),
                     context
                 )
+
+
+# Admin view that triggers management command
+@require_GET
+def sync_locales_view(request):
+    call_command("sync_pontoon_locales")
+    messages.success(request, "Pontoon locales synced successfully.")
+    return redirect(reverse("wagtailsnippets_microsite_pontoonlocale:list"))
+
+@hooks.register("register_admin_urls")
+def register_sync_locales_url():
+    return [path("pontoon-locales/sync/", sync_locales_view, name="pontoon_locales_sync")]
+
+@hooks.register("register_admin_menu_item")
+def register_sync_menu_item():
+    return MenuItem(
+        "Sync Locales",
+        reverse("pontoon_locales_sync"),
+        icon_name="repeat",
+        order=1000,
+    )

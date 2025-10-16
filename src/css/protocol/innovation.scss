@@ -40,7 +40,8 @@ html {
 
 body.brand-theme-innovation {
     .c-navigation {
-        // background-color: transparent;
+        background-color: transparent;
+        box-shadow: none;
         position: fixed;
         text-align: center;
         top: 0;
@@ -64,7 +65,8 @@ body.brand-theme-innovation {
                 text-decoration: none;
             }
 
-            a.nav-button:hover {
+            a.nav-button:hover,
+            a.nav-button.active {
                 background-color: #fafafa;
                 color: #000;
                 transition: all 0.2s;
@@ -95,7 +97,13 @@ body.brand-theme-innovation {
                 position: absolute;
                 left: 50%;
                 margin: 16px 0;
-                transform: translateX(-50%);
+
+                /* Move smoothly */
+                transform:
+                    translateX(-50%)
+                    translateY(calc(-2px * min(var(--scroll-y, 0), 400)));
+                transition-duration: transform 0.5s;
+                transition-timing-function: cubic-bezier(.4,0,.2,1);
 
                 a {
                     display: inline;
@@ -125,6 +133,11 @@ body.brand-theme-innovation {
                 }
             }
         }
+    }
+
+    .background-image {
+        opacity: calc(1 - (var(--scroll-y) / 400));
+        position: absolute;
     }
 
     .hero-section {
@@ -163,6 +176,7 @@ body.brand-theme-innovation {
         font-family: var(--title-font-family);
         font-size: 20px;
         font-weight: 500;
+        position: relative;
     }
 
     .search-form {
@@ -206,7 +220,8 @@ body.brand-theme-innovation {
                 display: inline-block;
                 font-family: var(--title-font-family);
 
-                background: #3c3c3cb3;
+                background: no-repeat url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='none' fill-rule='evenodd' stroke='%239595a2' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m5 9 7 7 7-7'/%3E%3C/svg%3E"), linear-gradient(180deg, #3c3c3cb3 0, #3c3c3cb3);
+                background-position: right 0.2em center, 0 0;
                 border: none;
                 border-radius: 0;
                 box-shadow: none;
@@ -214,6 +229,7 @@ body.brand-theme-innovation {
                 cursor: pointer;
                 font-size: 16px;
                 margin-bottom: 0;
+                max-width: 255px;
             }
         }
 
@@ -247,6 +263,7 @@ body.brand-theme-innovation {
         max-width: none;
         line-height: 0.9em;
         padding: 80px 20px;
+        position: relative;
     }
 
     .bb-column-block {
@@ -267,6 +284,11 @@ body.brand-theme-innovation {
 
                 .mzp-c-picto {
                     position: relative;
+
+                    .mzp-c-picto-image {
+                        height: 248px;
+                        overflow: hidden;
+                    }
 
                     .mzp-c-card-image {
                         width: 100%;

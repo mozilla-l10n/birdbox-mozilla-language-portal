@@ -1,5 +1,11 @@
 {% if field.name == "search" %}
   <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="Search translations" required autofocus>
 {% else %}
-  {{ field }}
+  <select name="language" id="id_language">
+    {% for locale in locales %}
+    <option value="{{ locale.code }}" {% if default_locale == locale.code %}selected{% endif %}>
+      {{ locale.name }} · {{ locale.code }}
+    </option>
+    {% endfor %}
+  </select>
 {% endif %}
