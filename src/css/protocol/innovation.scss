@@ -138,6 +138,7 @@ body.brand-theme-innovation {
     .background-image {
         opacity: calc(1 - (var(--scroll-y) / 400));
         position: absolute;
+        width: 100%;
     }
 
     .hero-section {
