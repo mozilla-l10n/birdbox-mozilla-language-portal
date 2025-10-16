@@ -52,6 +52,7 @@ def navigation(context) -> Dict:
         "nav_links": [],
         "cta_label": "",
         "cta_url": "",
+        "request": request,
     }
 
     if microsite_settings.navigation_generate_nav_from_page_tree:

@@ -64,7 +64,8 @@ body.brand-theme-innovation {
                 text-decoration: none;
             }
 
-            a.nav-button:hover {
+            a.nav-button:hover,
+            a.nav-button.active {
                 background-color: #fafafa;
                 color: #000;
                 transition: all 0.2s;
