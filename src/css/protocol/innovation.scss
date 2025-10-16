@@ -271,6 +271,11 @@ body.brand-theme-innovation {
                 .mzp-c-picto {
                     position: relative;
 
+                    .mzp-c-picto-image {
+                        height: 248px;
+                        overflow: hidden;
+                    }
+
                     .mzp-c-card-image {
                         width: 100%;
                     }
