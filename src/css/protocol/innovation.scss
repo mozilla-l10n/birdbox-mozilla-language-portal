@@ -168,7 +168,6 @@ body.brand-theme-innovation {
                     margin-bottom: 25px;
                 }
             }
-
         }
     }
 
@@ -492,6 +491,18 @@ body.template-product-landing-page {
         .tm-entry:hover {
             .summary {
                 color: #FFF;
+            }
+        }
+    }
+}
+
+body.template-longform {
+    .mzp-l-content {
+        .bb-c-article {
+            blockquote {
+                p {
+                    color: hsla(0,0%,94%,.6);
+                }
             }
         }
     }
