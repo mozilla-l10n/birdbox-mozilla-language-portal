@@ -3,7 +3,7 @@
 {% else %}
   <select name="language" id="id_language">
     {% for locale in locales %}
-    <option value="{{ locale.code }}" {% if default_locale == locale.code %}selected{% endif %}>
+    <option value="{{ locale.code }}" {% if selected_locale == locale.code %}selected{% endif %}>
       {{ locale.name }} · {{ locale.code }}
     </option>
     {% endfor %}

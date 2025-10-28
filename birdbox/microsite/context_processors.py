@@ -12,8 +12,12 @@ def google_tag(request):
     return {"GOOGLE_TAG_ID": settings.GOOGLE_TAG_ID}
 
 
-def default_locale(request):
-    """Get default locale from Accept-language request header."""
+def selected_locale(request):
+    """Get selected locale from URL or Accept-language request header."""
+
+    selected_locale = request.GET.get("locale")
+    if selected_locale:
+        return {"selected_locale": selected_locale}
 
     header = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
     accept = trans_real.parse_accept_lang_header(header)
@@ -22,6 +26,6 @@ def default_locale(request):
     for a in accept:
         for locale in locales:
             if a[0].casefold() == locale.casefold():
-                return {"default_locale": locale}
+                return {"selected_locale": locale}
 
-    return {"default_locale": "en-GB"}
+    return {"selected_locale": "en-GB"}
