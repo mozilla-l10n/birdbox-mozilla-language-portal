@@ -799,6 +799,7 @@ class ProductPage(BaseProtocolPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["locales"] = PontoonLocale.objects.all().order_by("name")
+        context["projects"] = PontoonProject.objects.all()
 
         search = request.GET.get("search")
         locale = request.GET.get("locale", "en-GB")
@@ -1618,3 +1619,14 @@ class PontoonLocale(Model):
 
     def __str__(self):
         return f"{self.name} · {self.code}"
+
+
+@register_snippet
+class PontoonProject(Model):
+    slug = CharField(max_length=128, unique=True)
+    name = CharField(max_length=128, unique=True)
+
+    panels = [FieldPanel("slug"), FieldPanel("name")]
+
+    def __str__(self):
+        return f"{self.name}"
