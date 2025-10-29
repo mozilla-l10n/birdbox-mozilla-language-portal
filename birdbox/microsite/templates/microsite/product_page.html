@@ -23,10 +23,10 @@
           <p class="target">{{ item.target }}</p>
           {% if item.project %}
           <p class="project">
-            {% if item.entity %}
-            <a href="https://pontoon.mozilla.org/projects/{{ item.project }}/all-resources/?string={{ item.entity }}">{{ item.project }}</a>
+            {% if item.entity and not item.project_disabled %}
+            <a href="https://pontoon.mozilla.org/projects/{{ item.project }}/all-resources/?string={{ item.entity }}">{{ item.project_name }}</a>
             {% else %}
-            <span>{{ item.project }}</span>
+            <span>{{ item.project_name }}</span>
             {% endif %}
           </p>
           {% endif %}

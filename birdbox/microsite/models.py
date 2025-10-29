@@ -799,7 +799,6 @@ class ProductPage(BaseProtocolPage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["locales"] = PontoonLocale.objects.all().order_by("name")
-        context["projects"] = PontoonProject.objects.all()
 
         search = request.GET.get("search")
         locale = request.GET.get("locale", "en-GB")
@@ -815,6 +814,13 @@ class ProductPage(BaseProtocolPage):
             try:
                 response = requests.get(url, params=params)
                 search_results = response.json().get("results", [])
+                project_names = {p.slug: p.name for p in PontoonProject.objects.all()}
+                disabled_projects = [p.slug for p in PontoonProject.objects.all() if p.disabled]
+
+                for item in search_results:
+                    item["project_name"] = project_names.get(item["project"], item["project"])
+                    item["project_disabled"] = item["project"] in disabled_projects
+
                 context["search_results"] = search_results
             except Exception as e:
                 context["error"] = str(e)
@@ -1625,8 +1631,9 @@ class PontoonLocale(Model):
 class PontoonProject(Model):
     slug = CharField(max_length=128, unique=True)
     name = CharField(max_length=128, unique=True)
+    disabled = BooleanField(default=False)
 
-    panels = [FieldPanel("slug"), FieldPanel("name")]
+    panels = [FieldPanel("slug"), FieldPanel("name"), FieldPanel("disabled")]
 
     def __str__(self):
         return f"{self.name}"

@@ -36,14 +36,15 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f"Synced {len(locales)} locales — {created} new, {updated} updated."))
 
-        PROJECTS_API = "https://pontoon.mozilla.org/api/v2/projects/"
+        PROJECTS_API = "https://pontoon.mozilla.org/api/v2/projects/?include_disabled=true"
         projects = fetch_data(PROJECTS_API)
         created = updated = 0
 
         for item in projects:
             slug = item["slug"]
             name = item.get("name") or slug
-            _, was_created = PontoonProject.objects.update_or_create(slug=slug, defaults={"name": name})
+            disabled = item.get("disabled", False)
+            _, was_created = PontoonProject.objects.update_or_create(slug=slug, defaults={"name": name, "disabled": disabled})
             if was_created:
                 created += 1
             else:
