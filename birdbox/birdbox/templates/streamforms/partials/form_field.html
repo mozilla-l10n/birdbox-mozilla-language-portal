@@ -1,5 +1,5 @@
 {% if field.name == "search" %}
-  <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="Search translations" required autofocus>
+  <input type="text" name="{{ field.name }}" id="{{ field.id_for_label }}" value="{{ request.GET.search }}" placeholder="Search translations" required autofocus>
 {% else %}
   <select name="language" id="id_language">
     {% for locale in locales %}
