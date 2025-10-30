@@ -19,8 +19,8 @@
   <ul class="tm-entries">
     {% for item in search_results %}
         <li class="tm-entry">
-          <p class="source">{{ item.source }}</p>
-          <p class="target">{{ item.target }}</p>
+          <p class="source">{{ item.source|highlight:request.GET.search }}</p>
+          <p class="target">{{ item.target|highlight:request.GET.search }}</p>
           {% if item.project %}
           <p class="project">
             {% if item.entity and not item.project_disabled %}

@@ -482,6 +482,11 @@ body.template-product-landing-page {
                     text-decoration: underline;
                 }
             }
+
+            mark {
+                background: #00D230;
+                color: #000;
+            }
         }
 
         .tm-entry:last-child {
