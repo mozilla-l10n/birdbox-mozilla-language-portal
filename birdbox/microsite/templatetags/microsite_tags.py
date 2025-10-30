@@ -2,12 +2,16 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+import re
+
 from collections import defaultdict
 from operator import itemgetter
 from typing import Dict, List
 
 from django.conf import settings
 from django.template import Library
+from django.utils.safestring import mark_safe
+from django.utils.html import escape
 
 from product_details import product_details
 from wagtail.blocks.struct_block import StructBlock
@@ -236,3 +240,22 @@ def breadcrumbs(page: Page) -> Dict[str, str]:
 @register.filter
 def is_hero_block(value: StructBlock) -> bool:
     return isinstance(value.block, HeroBlock)
+
+
+@register.filter
+def highlight(text, search):
+    """Highlight all case-insensitive occurrences of search inside text."""
+    if not text or not search:
+        return text
+
+    # Escape both to prevent XSS
+    text = escape(text)
+    search_escaped = re.escape(search)
+
+    # Replace matches with a <mark> wrapper
+    pattern = re.compile(search_escaped, re.IGNORECASE)
+    highlighted = pattern.sub(
+        lambda m: f"<mark>{m.group(0)}</mark>", text
+    )
+
+    return mark_safe(highlighted)
