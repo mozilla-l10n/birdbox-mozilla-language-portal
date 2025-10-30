@@ -474,13 +474,18 @@ body.template-product-landing-page {
 
             .project {
                 margin-bottom: 0;
+                font-weight: 500;
+                font-size: 14px;
 
                 a {
                     color: #FFF;
-                    font-weight: 500;
-                    font-size: 14px;
                     text-decoration: underline;
                 }
+            }
+
+            mark {
+                background: #00D230;
+                color: #000;
             }
         }
 

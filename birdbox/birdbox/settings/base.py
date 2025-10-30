@@ -116,7 +116,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
                 "microsite.context_processors.google_tag",
-                "microsite.context_processors.default_locale",
+                "microsite.context_processors.selected_locale",
             ],
         },
     },

@@ -62,20 +62,20 @@ def process_form(page, request, *args, **kwargs):
 
 # Admin view that triggers management command
 @require_GET
-def sync_locales_view(request):
-    call_command("sync_pontoon_locales")
-    messages.success(request, "Pontoon locales synced successfully.")
-    return redirect(reverse("wagtailsnippets_microsite_pontoonlocale:list"))
+def sync_data_view(request):
+    call_command("sync_pontoon_data")
+    messages.success(request, "Pontoon data synced successfully.")
+    return redirect('/admin/snippets/')
 
 @hooks.register("register_admin_urls")
-def register_sync_locales_url():
-    return [path("pontoon-locales/sync/", sync_locales_view, name="pontoon_locales_sync")]
+def register_sync_data_url():
+    return [path("pontoon-data/sync/", sync_data_view, name="pontoon_data_sync")]
 
 @hooks.register("register_admin_menu_item")
 def register_sync_menu_item():
     return MenuItem(
-        "Sync Locales",
-        reverse("pontoon_locales_sync"),
+        "Sync Data",
+        reverse("pontoon_data_sync"),
         icon_name="repeat",
         order=1000,
     )
