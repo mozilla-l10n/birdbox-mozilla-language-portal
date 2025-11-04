@@ -1,0 +1,20 @@
+{% load microsite_tags %}
+
+{# expects: search_results (list), search (str) #}
+{% for item in search_results %}
+<li class="tm-entry">
+  <p class="source">{{ item.source|highlight:search }}</p>
+  <p class="target">{{ item.target|highlight:search }}</p>
+  {% if item.project %}
+  <p class="project">
+    {% if item.entity and not item.project_disabled %}
+      <a href="https://pontoon.mozilla.org/projects/{{ item.project }}/all-resources/?string={{ item.entity }}">
+        {{ item.project_name }}
+      </a>
+    {% else %}
+      <span>{{ item.project_name }}</span>
+    {% endif %}
+  </p>
+  {% endif %}
+</li>
+{% endfor %}

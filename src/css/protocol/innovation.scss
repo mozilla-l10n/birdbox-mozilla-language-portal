@@ -455,7 +455,7 @@ body.template-product-landing-page {
     .tm-entries {
         .tm-entry {
             border-top: 1px solid #FAFAFA;
-            padding: 25px 150px 25px 20px;
+            padding: 25px 20px;
             position: relative;
 
             .source {
@@ -498,6 +498,36 @@ body.template-product-landing-page {
                 color: #FFF;
             }
         }
+    }
+
+    .tm-loader {
+        display: none;
+        align-items: center;
+        gap: .4rem;
+        color: #FFFFFFD9;
+        padding: 0 20px;
+        vertical-align: middle;
+
+        .tm-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #FFFFFF40;
+            border-top-color: #FFFFFFE6;
+            animation: tm-spin 0.8s linear infinite;
+            vertical-align: bottom;
+        }
+    }
+
+    .tm-loader[aria-busy="true"] {
+        display: inline-flex;
+    }
+}
+
+@keyframes tm-spin {
+    to {
+        transform: rotate(360deg);
     }
 }
 
