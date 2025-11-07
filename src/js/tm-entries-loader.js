@@ -63,3 +63,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   observer.observe(sentinel);
 });
+
+// Update TMX and TBX download links based on selected language
+document.getElementById('id_language').addEventListener('change', function () {
+  const selectedLocale = this.value;
+  const tmLink = document.querySelector('.downloads a[href*="translation-memory"]');
+  const termLink = document.querySelector('.downloads a[href*="terminology"]');
+
+  if (tmLink) {
+    tmLink.href = tmLink.href.replace(/\/[A-Za-z0-9-]+\.all-projects\.tmx$/, `/${selectedLocale}.all-projects.tmx`);
+  }
+
+  if (termLink) {
+    termLink.href = termLink.href.replace(/\/[A-Za-z0-9-]+\.tbx$/, `/${selectedLocale}.tbx`);
+  }
+});

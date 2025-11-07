@@ -29,6 +29,13 @@ See https://wagtailstreamforms.readthedocs.io/en/latest/templates.html
       </fieldset>
   </form>
 
+  {% if page.depth != 2 %}
+  <div class="downloads">
+    <a href="https://pontoon.mozilla.org/translation-memory/{{ selected_locale }}.all-projects.tmx" class="mzp-c-button mzp-c-button--primary">Download Translation Memory</a>
+    <a href="https://pontoon.mozilla.org/terminology/{{ selected_locale }}.tbx" class="mzp-c-button mzp-c-button--primary">Download Terminology</a>
+  </div>
+  {% endif %}
+
   <div class="background-wrapper">
     <img src="/static/img/earth.png">
     <div class="h-dither-fade">

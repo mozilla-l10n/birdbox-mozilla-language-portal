@@ -442,6 +442,7 @@ body.brand-theme-innovation {
 
     .mzp-c-footer {
         .mzp-l-content {
+            max-width: none;
             padding: 20px;
         }
     }
@@ -450,6 +451,37 @@ body.brand-theme-innovation {
 body.template-product-landing-page {
     .search-form {
         margin-top: 100px;
+
+        .downloads {
+            position: absolute;
+            text-align: center;
+            left: 0;
+            right: 0;
+            top: 220px;
+            z-index: 1;
+
+            a {
+                background-color: #3c3c3c;
+                border: none;
+                border-radius: 0;
+                color: #fafafa;
+                display: inline-block;
+                padding: 9px 10px 8px;
+                font-family: var(--title-font-family);
+                font-size: 13px;
+                width: 220px;
+            }
+
+            a:hover {
+                background-color: #fafafa;
+                color: #000;
+                transition: all 0.2s;
+            }
+
+            a:first-child {
+                margin-right: 15px;
+            }
+        }
     }
 
     .tm-entries {
