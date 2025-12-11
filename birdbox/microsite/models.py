@@ -2,7 +2,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+from bs4 import BeautifulSoup
 from typing import List
+from urllib.parse import urlparse, parse_qs
 
 from django import forms
 from django.conf import settings
@@ -19,7 +21,9 @@ from django.db.models import (
     TextChoices,
     URLField,
 )
+from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.utils.cache import add_never_cache_headers
 from django.utils.decorators import method_decorator
@@ -32,6 +36,7 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.blocks import RichTextBlock
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import LockableMixin, Page
@@ -63,10 +68,13 @@ from .blocks import (
     SectionHeadingBlock,
     SplitBlock,
     VideoEmbedBlock,
-    RSSFeedBlock,
 )
 
+import requests
+import feedparser
+
 ALL = "__all__"
+PONTOON_API = "https://pontoon.mozilla.org/api/v2/search/tm/"
 
 
 class ProtocolLayout(TextChoices):
@@ -337,16 +345,13 @@ class HomePage(BaseProtocolPage):
                 ),
             ),
             (
-                "rss_feed",
-                RSSFeedBlock(
-                    label="RSS feed",
-                    label_format="RSS feed: {feed}",
-                    icon="media",
+                "custom_form",
+                WagtailFormBlock(
+                    label_format="Custom form",
                     required=False,
-                    blank=True, 
-                    use_json_field=True,
-                )
-            )
+                    icon="radio-empty",
+                ),
+            ),
         ],
         block_counts={
             "contact_form": {"max_num": 1},
@@ -369,6 +374,38 @@ class HomePage(BaseProtocolPage):
             "(However, this will not be displayed in the page if a block is "
             "added that has its own H1-level heading field, such as a Hero)"
         )
+
+    def get_feed_entries(self):
+        url = 'https://blog.mozilla.org/l10n/rss'
+        feed = feedparser.parse(url)
+        clean_entries = []
+
+        for i, entry in enumerate(feed.entries):
+            # Only collect last 3 blog entries
+            if i == 3:
+                break
+
+            # Remove last <a> tag if it says "Read more"
+            soup = BeautifulSoup(entry.summary, "html.parser")
+
+            if soup.a and 'read more' in soup.a.text.lower():
+                soup.a.decompose()
+
+            # Only collect relevant data
+            clean_entries.append({
+                "title": entry.title,
+                "link": entry.link,
+                "summary": str(soup),
+            })
+
+        return clean_entries
+
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['blog_feed_entries'] = self.get_feed_entries()
+        context["locales"] = PontoonLocale.objects.all().order_by("name")
+        return context
 
 
 class InnovationsContentPage(BaseProtocolPage):
@@ -657,7 +694,7 @@ class GeneralPurposePage(BaseProtocolPage):
     ]
 
 
-class ProductPage(BaseProtocolPage):
+class ProductPage(RoutablePageMixin, BaseProtocolPage):
     """General template for product listing and landing pages"""
 
     # title comes from the base Page class
@@ -703,6 +740,14 @@ class ProductPage(BaseProtocolPage):
                     required=False,
                     label_format="Compact callout: {headline}",
                     help_text=get_docs_link("compact-callout"),
+                ),
+            ),
+            (
+                "custom_form",
+                WagtailFormBlock(
+                    label_format="Custom form",
+                    required=False,
+                    icon="radio-empty",
                 ),
             ),
             (
@@ -755,6 +800,80 @@ class ProductPage(BaseProtocolPage):
             "(Unless you use a Hero on the page, in which case we'll use "
             "the title from that for the H1)"
         )
+
+    @route(r"^load-more/$", name="load_more")
+    def load_more(self, request, *args, **kwargs):
+        """Return more TM results for infinite scroll."""
+        next_url = request.GET.get("next")
+
+        parsed = urlparse(next_url)
+        query_params = parse_qs(parsed.query)
+        search = query_params.get("text", [None])[0]
+
+        try:
+            results, next_url = self._fetch_tm(next_url=next_url)
+            html = render_to_string(
+                "microsite/partials/tm_entries_items.html",
+                {"search_results": results, "search": search},
+                request=request,
+            )
+            return JsonResponse({"html": html, "next": next_url}, status=200)
+
+        except Exception as e:
+            return JsonResponse({"error": 400, "message": str(e)}, status=400)
+
+    def _fetch_tm(self, search=None, locale=None, next_url=None):
+        """
+        Fetches results from Pontoon TM search.
+        Returns a tuple of (results list, next_url string)."""
+        try:
+            if next_url:
+                # Safety: only allow Pontoon's host
+                next_parsed = urlparse(next_url)
+                pontoon_parsed = urlparse(PONTOON_API)
+                if next_parsed.hostname != pontoon_parsed.hostname:
+                    raise ValueError("Invalid next URL host")
+
+                resp = requests.get(next_url)
+            else:
+                resp = requests.get(
+                    PONTOON_API,
+                    params={"text": search, "locale": locale},
+                )
+
+            data = resp.json()
+            results = data.get("results", [])
+
+            # Enrich with project metadata
+            project_names = {p.slug: p.name for p in PontoonProject.objects.all()}
+            disabled = {p.slug for p in PontoonProject.objects.all() if p.disabled}
+            for item in results:
+                slug = item.get("project")
+                item["project_name"] = project_names.get(slug, slug)
+                item["project_disabled"] = slug in disabled
+
+            return results, data.get("next", "")
+        except Exception as e:
+            # In JSON path we’ll return 400; in HTML path we’ll show an error
+            raise
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["locales"] = PontoonLocale.objects.all().order_by("name")
+
+        search = request.GET.get("search")
+        locale = request.GET.get("locale", "en-GB")
+
+        if search:
+            try:
+                results, next_url = self._fetch_tm(search=search, locale=locale)
+                context["next"] = next_url
+                context["search_results"] = results
+            except Exception as e:
+                context["error"] = str(e)
+                context["search_results"] = []
+
+        return context
 
 
 class LongformArticlePage(BaseProtocolPage):
@@ -1542,3 +1661,26 @@ class ProtocolTestPage(BaseProtocolPage):
     content_panels = BaseProtocolPage.content_panels + [
         FieldPanel("body"),
     ]
+
+
+@register_snippet
+class PontoonLocale(Model):
+    code = CharField(max_length=20, unique=True)
+    name = CharField(max_length=128)
+
+    panels = [FieldPanel("code"), FieldPanel("name")]
+
+    def __str__(self):
+        return f"{self.name} · {self.code}"
+
+
+@register_snippet
+class PontoonProject(Model):
+    slug = CharField(max_length=128, unique=True)
+    name = CharField(max_length=128, unique=True)
+    disabled = BooleanField(default=False)
+
+    panels = [FieldPanel("slug"), FieldPanel("name"), FieldPanel("disabled")]
+
+    def __str__(self):
+        return f"{self.name}"

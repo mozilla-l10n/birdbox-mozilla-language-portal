@@ -20,6 +20,7 @@ module.exports = {
         "newsletter-form": "./src/js/newsletter/newsletter-init.js", // not protocol JS (yet)
         analytics: "./src/js/analytics.js",
         "themed-color-block": "./src/js/themed-color-block.js",
+        "tm-entries-loader": "./src/js/tm-entries-loader.js",
 
         // CSS
         // base/core

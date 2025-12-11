@@ -116,6 +116,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
                 "microsite.context_processors.google_tag",
+                "microsite.context_processors.selected_locale",
             ],
         },
     },
@@ -597,9 +598,16 @@ WAGTAILMARKDOWN = {
             "alt",
             "title",
         ],
+        "h1": ["id"],
+        "h2": ["id"],
+        "h3": ["id"],
+        "h4": ["id"],
     },
     "allowed_settings_mode": "override",  # optional. Possible values: "extend" or "override". Defaults to "extend".
-    "extensions": [],  # optional. a list of python-markdown supported extensions
+    # optional. a list of python-markdown supported extensions
+    "extensions": [
+        "markdown.extensions.toc",
+    ],
     "extension_configs": {},  # optional. a dictionary with the extension name as key, and its configuration as value
     "extensions_settings_mode": "extend",  # optional. Possible values: "extend" or "override". Defaults to "extend".
 }
@@ -705,3 +713,5 @@ CONTACT_FORM_RECIPIENT_EMAIL = {
         parser=str,
     ),
 }
+
+WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = False

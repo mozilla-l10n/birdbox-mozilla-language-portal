@@ -1,5 +1,5 @@
 {% extends "microsite/base.html" %}
-{% load microsite_tags wagtailcore_tags wagtailmetadata_tags %}
+{% load microsite_tags wagtailcore_tags wagtailmetadata_tags static %}
 
 {% block extra_head %}
   {{block.super}}
@@ -10,17 +10,31 @@
 
 {% block content %}
 
-{% block_with_h1_exists_in_page page as h1_exists %}
-
-{% if not h1_exists %}
-<div class="{% get_layout_class_from_page %}">
-  <h1>{{page.title}}</h1>
-</div>
-{% endif %}
-
 {% for block in page.content %}
   {# Breadcrumbs go after the hero unit #}
   {% include "microsite/partials/block_with_breadcrumbs_where_appropriate.html" %}
 {% endfor %}
 
+{% if search_results %}
+  <ul class="tm-entries" data-next="{{ next }}">
+    {% include "microsite/partials/tm_entries_items.html" with search_results=search_results search=request.GET.search %}
+  </ul>
+  <div class="tm-loader" id="tm-loader" role="status" aria-live="polite" aria-busy="false">
+    <span class="tm-spinner" aria-hidden="true"></span>
+    <span>Loading…</span>
+  </div>
+
+{% elif request.GET.search %}
+  <div class="tm-entries">
+    <p class="tm-entry">No translations found matching your search.</p>
+    {% if translation_error %}
+    <p class="tm-entry">Error fetching translations: {{ translation_error }}</p>
+    {% endif %}
+  </div>
+{% endif %}
+
 {% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript" src="{% static 'js/tm-entries-loader.js' %}"></script>
+{% endblock %}

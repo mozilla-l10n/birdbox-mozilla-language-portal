@@ -26,3 +26,8 @@ window.MzpDetails.init('.mzp-c-details > h3');
 window.MzpDetails.init('.mzp-c-details > h4');
 window.MzpDetails.init('.mzp-c-details > h5');
 window.MzpDetails.init('.mzp-c-details > h6');
+
+// Track scroll position in a CSS variable for use in styles
+window.addEventListener('scroll', () => {
+  document.body.style.setProperty('--scroll-y', window.scrollY);
+});
